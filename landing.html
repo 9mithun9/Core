@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>[StudioName] — 3-class Trial ฿990</title>
+  <meta name="description" content="Try 3 Pilates classes for THB 990 at [StudioName]. Small classes, expert instructors. Book now via LINE.">
+  <style>
+    :root{--accent:#2b9c9f;--muted:#666}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; margin:0; color:#111; background:#fff}
+    .container{padding:16px; max-width:640px; margin:0 auto}
+    .hero{height:52vh; background:#eee url('hero.jpg') center/cover no-repeat; border-radius:12px; margin-bottom:12px}
+    h1{font-size:20px;margin:8px 0}
+    p.lead{margin:6px 0 14px;color:var(--muted)}
+    .benefits{display:flex; gap:8px; flex-direction:column; margin-bottom:14px}
+    .benefit{background:#f7f7f7;padding:10px;border-radius:10px;font-size:14px}
+    .price{font-weight:800;font-size:18px;margin-bottom:10px}
+    .btn{display:block;text-align:center;padding:14px;border-radius:10px;text-decoration:none;font-weight:700;background:var(--accent);color:white}
+    .small{font-size:12px;color:#999;margin-top:8px}
+    .testim{margin-top:12px;background:#fafafa;padding:10px;border-radius:8px;font-size:13px}
+    footer{margin-top:18px;font-size:12px;color:#888;text-align:center}
+    .qr{display:block;margin:10px auto; max-width:140px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero" role="img" aria-label="Studio hero image (replace hero.jpg with your photo)"></div>
+
+    <h1>Try 3 Pilates classes — <span class="price">฿990</span></h1>
+    <p class="lead">Small classes • Expert instructors • Convenient schedule. Limited trial spots — reserve via LINE.</p>
+
+    <div class="benefits">
+      <div class="benefit">✅ Small classes (max 6 per reformer)</div>
+      <div class="benefit">✅ Personalized coaching & posture check</div>
+      <div class="benefit">✅ Book and chat via LINE — fast & personal</div>
+    </div>
+
+    <!-- CTA (will be set by JS to include URL UTMs) -->
+    <a id="lineBtn" class="btn" href="#" target="_blank" rel="noopener">Book via LINE</a>
+    <p class="small">If clicking doesn't open LINE, scan the QR at the studio or open LINE and send: "Hi [StudioName] — I want the 3-class trial (TRIAL990)".</p>
+
+    <div class="testim">
+      <strong>Member story:</strong> "Felt stronger in 4 sessions — the instructors really adapt the class to your needs." — Ploy
+    </div>
+
+    <footer>
+      <div>StudioName • address or neighborhood</div>
+      <div style="margin-top:6px">Questions? Chat on LINE: <strong>@mithun_marshal</strong></div>
+    </footer>
+  </div>
+
+  <script>
+    // CONFIG - change if needed
+    const LINE_ID = "@mithun_marshal"; // your LINE OA ID (as supplied)
+    const STUDIO_NAME = "[StudioName]";
+    const TRIAL_CODE = "TRIAL990";
+
+    // function to read URL params (UTM)
+    function getParams() {
+      const params = {};
+      location.search.substring(1).split("&").forEach(pair => {
+        if (!pair) return;
+        const [k,v] = pair.split("=");
+        params[decodeURIComponent(k)] = v ? decodeURIComponent(v) : "";
+      });
+      return params;
+    }
+
+    // Build the prefilled LINE message text with UTM appended if present
+    (function initLineLink(){
+      const params = getParams();
+      const utm_source = params.utm_source || "";
+      const utm_medium = params.utm_medium || "";
+      const utm_campaign = params.utm_campaign || "";
+      const utm_content = params.utm_content || "";
+
+      // core message (human readable) — keep concise
+      let msg = `Hi ${STUDIO_NAME} — I want the 3-class trial (${TRIAL_CODE})`;
+
+      // append UTM meta (pipe-separated for easy parsing in chat / CRM)
+      const utmParts = [];
+      if(utm_source) utmParts.push(`utm_source=${utm_source}`);
+      if(utm_medium) utmParts.push(`utm_medium=${utm_medium}`);
+      if(utm_campaign) utmParts.push(`utm_campaign=${utm_campaign}`);
+      if(utm_content) utmParts.push(`utm_content=${utm_content}`);
+      if(utmParts.length) msg += ` | ${utmParts.join("&")}`;
+
+      // append optional phone placeholder (if you want client to add phone)
+      msg += ` | phone=`;
+
+      // URL encode
+      const encoded = encodeURIComponent(msg);
+
+      // LINE deep link that opens a chat with prefilled text
+      const lineHref = `https://line.me/R/ti/p/${encodeURIComponent(LINE_ID)}?text=${encoded}`;
+
+      // set button and also the page QR fallback (if desired)
+      document.getElementById("lineBtn").setAttribute("href", lineHref);
+
+      // Optional: if on desktop, show an alert telling them to scan QR (desktop users rarely have LINE mobile)
+      if(navigator.userAgent.indexOf("Mobile") === -1){
+        // leave it - desktop users can still open LINE desktop or copy message
+        document.getElementById("lineBtn").setAttribute("title","Opens LINE (on mobile). On desktop, copy the message or open LINE Desktop.");
+      }
+    })();
+  </script>
+
+  <!-- Optional: GA4 (replace MEASUREMENT_ID) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'MEASUREMENT_ID');
+  </script> -->
+
+  <!-- Optional: Facebook Pixel (replace PIXEL_ID) -->
+  <!-- <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'PIXEL_ID');
+    fbq('track', 'PageView');
+  </script> -->
+</body>
+</html>
